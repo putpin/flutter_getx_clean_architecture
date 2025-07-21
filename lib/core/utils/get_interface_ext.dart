@@ -1,27 +1,38 @@
-import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 extension GetInterfaceExt on GetInterface {
-  /// Same as `Get.lazyPut` but requires a tag.
-  void lazyPutTag<S>(
+  static int _tag = 0;
+
+  String get tag => 'SDS_$_tag';
+
+  /// Same as `Get.lazyPut` but create new instance with a tag.
+  void lazyPutFactory<S>(
     InstanceBuilderCallback<S> builder, {
-    required String tag,
     bool fenix = false,
   }) {
-    lazyPut<S>(builder, tag: tag, fenix: fenix);
+    lazyPut<S>(
+      builder,
+      tag: tag,
+      fenix: fenix,
+    );
   }
 
-  /// Same as `Get.put` but requires a tag.
-  S putTag<S>(
+  /// Same as `Get.put` but create new instance with a tag.
+  S putFactory<S>(
     S dependency, {
-    required String tag,
     bool permanent = false,
     InstanceBuilderCallback<S>? builder,
   }) =>
-      put<S>(dependency, tag: tag, permanent: permanent);
+      put<S>(
+        dependency,
+        tag: tag,
+        permanent: permanent,
+      );
 
-  /// Same as `Get.find` but requires a tag.
-  S findTag<S>({required String tag}) => find<S>(tag: tag);
+  /// Same as `Get.find` but returns the instance with a current tag.
+  S findFactory<S>() => find<S>(
+        tag: tag,
+      );
 
   /// The findOrNull method will return the instance if it is registered;
   /// otherwise, it will return null.
@@ -37,17 +48,18 @@ extension GetInterfaceExt on GetInterface {
     return arguments is T? ? arguments : null;
   }
 
-  Future<T?>? toNamedTag<T>(
+  Future<T?>? toNamedFactory<T>(
     String page, {
-    String? tag,
     dynamic arguments,
     int? id,
     Map<String, String>? parameters,
   }) {
+    ++_tag;
     return toNamed(
-      '$page/${tag ?? uuidV4}',
+      page,
       arguments: arguments,
       id: id,
+      preventDuplicates: false,
       parameters: parameters,
     );
   }

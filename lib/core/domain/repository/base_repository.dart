@@ -1,17 +1,15 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
+import 'package:get/get_instance/src/lifecycle.dart';
 
-abstract class BaseRepository {
+abstract class BaseRepository with GetLifeCycleBase {
   BaseRepository() {
-    log('onCreate -- $runtimeType');
+    $configureLifeCycle();
   }
 
-  bool isDisposed = false;
   final _cancelTokens = <CancelToken>[];
 
   CancelToken? get cancelToken {
-    if (isDisposed) return null;
+    if (isClosed) return null;
 
     final cancelToken = CancelToken();
     _cancelTokens.add(cancelToken);
@@ -30,7 +28,7 @@ abstract class BaseRepository {
   ///
   /// VD: Với search use case thì khi cancel all request chỉ cancel request của search use case mà thôi :)
   void cancelAllRequests() {
-    if (isDisposed) return;
+    if (isClosed) return;
     for (final cancelToken in _cancelTokens) {
       if (!cancelToken.isCancelled) {
         cancelToken.cancel('Cancel all requests');
@@ -39,17 +37,14 @@ abstract class BaseRepository {
     _cancelTokens.clear();
   }
 
-  void dispose() {
-    if (isDisposed) return;
-
-    isDisposed = true;
-    log('dispose -- $runtimeType');
-
+  @override
+  void onClose() {
     for (final cancelToken in _cancelTokens) {
       if (!cancelToken.isCancelled) {
         cancelToken.cancel('Repository disposed');
       }
     }
     _cancelTokens.clear();
+    super.onClose();
   }
 }

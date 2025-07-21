@@ -3,11 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/repository/base_repository.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/usecase/base_use_case.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/bindings/base_bindings_tag.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/pages/get_page_tag.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page_tag.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page_factory.dart';
 import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +23,7 @@ class AppRoutes {
       name: '/',
       page: () => HomePage(),
     ),
-    GetPageTag(
+    GetPage(
       name: '/product_detail',
       page: () => ProductDetailPage(),
       binding: ProductDetailBinding(),
@@ -57,37 +55,41 @@ class HomePage extends StatelessWidget {
           title: Text(products[index]),
           onTap: () {
             final productId = (index + 1).toString();
-            Get.toNamedTag(
+            Get.toNamedFactory(
               '/product_detail',
               arguments: productId,
             );
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final r = Get.findFactory<GetProductDetailUseCase>();
+          log('GetProductDetailUseCase instance: $r');
+        },
+        child: Icon(Icons.category),
+      ),
     );
   }
 }
 
-class ProductDetailBinding extends BaseBindingsTag {
+class ProductDetailBinding extends Bindings {
   @override
-  void dependenciesTag(String tag) {
+  void dependencies() {
     // inject the repository
-    Get.lazyPutTag<ProductDetailRepository>(
+    Get.lazyPutFactory<ProductDetailRepository>(
       () => ProductDetailRepositoryImpl(),
-      tag: tag,
     );
 
     // inject the use case
-    Get.lazyPutTag<GetProductDetailUseCase>(
-      () => GetProductDetailUseCase(Get.find(tag: tag)),
-      tag: tag,
+    Get.lazyPutFactory<GetProductDetailUseCase>(
+      () => GetProductDetailUseCase(Get.findFactory()),
     );
 
-    Get.lazyPutTag(
+    Get.lazyPutFactory(
       () => ProductDetailController(
-        Get.findTag(tag: tag),
+        Get.findFactory(),
       ),
-      tag: tag,
     );
   }
 }
@@ -110,12 +112,6 @@ class GetProductDetailUseCase extends UseCase<String, String> {
     // Simulate fetching product detail
     return 'Details for product $input';
   }
-
-  @override
-  void dispose() {
-    repository.dispose();
-    super.dispose();
-  }
 }
 
 class ProductDetailController extends BaseGetxController {
@@ -132,15 +128,9 @@ class ProductDetailController extends BaseGetxController {
     productName = 'Product $productId';
     debugPrint('Controller created for $productName');
   }
-
-  @override
-  void onClose() {
-    getProductDetailUseCase.dispose();
-    super.onClose();
-  }
 }
 
-class ProductDetailPage extends BaseGetPageTag<ProductDetailController> {
+class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
   ProductDetailPage({super.key});
 
   // @override
@@ -164,9 +154,8 @@ class ProductDetailPage extends BaseGetPageTag<ProductDetailController> {
               onPressed: () {
                 // Mở tiếp một ProductDetailPage mới
                 final newId = (int.parse(controller.productId) + 1).toString();
-                Get.toNamedTag(
+                Get.toNamedFactory(
                   '/product_detail',
-                  tag: newId,
                   arguments: newId,
                 );
               },
