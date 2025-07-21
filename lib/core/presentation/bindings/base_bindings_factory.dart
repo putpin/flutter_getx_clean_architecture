@@ -1,27 +1,50 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/bindings/base_bindings.dart';
 import 'package:flutter_getx_clean_architecture/core/utils/get_interface_ext.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
 
-abstract class BaseBindingsFactory extends BaseBindings {
+abstract class BaseBindingsFactory extends Bindings {
   @override
   @nonVirtual
   void dependencies() {
     GetInterfaceExt.increaseTag();
-    dependenciesFactory();
+    bindingsFactoryRepository();
+    bindingsFactoryUseCase();
+    bindingsFactoryController();
   }
 
-  void dependenciesFactory();
+  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này
+  void bindingsFactoryRepository();
+
+  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này
+  void bindingsFactoryUseCase();
+
+  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này
+  void bindingsFactoryController();
 }
 
-class BindingsFactoryBuilder<T> extends BaseBindingsFactory {
-  /// Register your dependencies in the [builder] callback.
-  final BindingBuilderCallback builder;
+class BindingsFactoryBuilder extends BaseBindingsFactory {
+  final BindingBuilderCallback? bindingsFactoryControllerBuilder;
+  final BindingBuilderCallback? bindingsFactoryRepositoryBuilder;
+  final BindingBuilderCallback? bindingsFactoryUseCaseBuilder;
 
-  BindingsFactoryBuilder(this.builder);
+  BindingsFactoryBuilder({
+    this.bindingsFactoryControllerBuilder,
+    this.bindingsFactoryRepositoryBuilder,
+    this.bindingsFactoryUseCaseBuilder,
+  });
 
   @override
-  void dependenciesFactory() {
-    builder();
+  void bindingsFactoryController() {
+    bindingsFactoryControllerBuilder?.call();
+  }
+
+  @override
+  void bindingsFactoryRepository() {
+    bindingsFactoryRepositoryBuilder?.call();
+  }
+
+  @override
+  void bindingsFactoryUseCase() {
+    bindingsFactoryUseCaseBuilder?.call();
   }
 }

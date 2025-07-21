@@ -7,9 +7,10 @@ const _tagPrefix = 'SDS_';
 extension GetInterfaceExt on GetInterface {
   static int _tag = 0;
 
+  // Khi sử dụng factory, mỗi màn hình sẽ có một tag riêng biệt
   String get tag => '$_tagPrefix$_tag';
 
-  /// Same as `Get.lazyPut` but create new instance with a tag.
+  /// Same as `Get.lazyPut` but create new instance with a static tag.
   void lazyPutFactory<S>(
     InstanceBuilderCallback<S> builder, {
     bool fenix = false,
@@ -21,7 +22,7 @@ extension GetInterfaceExt on GetInterface {
     );
   }
 
-  /// Same as `Get.put` but create new instance with a tag.
+  /// Same as `Get.put` but create new instance with a static tag.
   S putFactory<S>(
     S dependency, {
     bool permanent = false,
@@ -33,7 +34,7 @@ extension GetInterfaceExt on GetInterface {
         permanent: permanent,
       );
 
-  /// Same as `Get.find` but returns the instance with a current tag.
+  /// Same as `Get.find` but returns the instance with a static tag.
   S findFactory<S>() => find<S>(
         tag: tag,
       );

@@ -89,17 +89,23 @@ class HomePage extends StatelessWidget {
 
 class ProductDetailBinding extends BaseBindingsFactory {
   @override
-  void dependenciesFactory() {
+  void bindingsFactoryRepository() {
     // inject the repository
     Get.lazyPutFactory<ProductDetailRepository>(
       () => ProductDetailRepositoryImpl(),
     );
+  }
 
+  @override
+  void bindingsFactoryUseCase() {
     // inject the use case
     Get.lazyPutFactory<GetProductDetailUseCase>(
       () => GetProductDetailUseCase(Get.findFactory()),
     );
+  }
 
+  @override
+  void bindingsFactoryController() {
     Get.lazyPutFactory(
       () => ProductDetailController(
         Get.findFactory(),
@@ -239,8 +245,10 @@ class CategoryPage extends BaseGetBtsDialog<CategoryController> {
 
   @override
   BaseBindingsFactory get bindingFactory => BindingsFactoryBuilder(
-        () {
-          Get.lazyPutFactory<CategoryController>(() => CategoryController());
+        bindingsFactoryControllerBuilder: () {
+          Get.lazyPutFactory<CategoryController>(
+            () => CategoryController(),
+          );
         },
       );
 }
