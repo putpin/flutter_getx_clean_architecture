@@ -184,10 +184,10 @@ class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                controller.showLoadingOverlay();
+                controller.showPageLoadingOverlay();
 
                 Future.delayed(Duration(seconds: 2), () {
-                  controller.hideLoadingOverlay();
+                  controller.hidePageLoadingOverlay();
                 });
               },
               child: Text('ShowLoadingOverlay'),
