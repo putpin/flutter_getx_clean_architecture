@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/repository/base_repository.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/usecase/base_use_case.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/bindings/base_bindings_factory.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bottom_sheet.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bts_dialog.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page_factory.dart';
 import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
@@ -30,11 +32,11 @@ class AppRoutes {
     GetPage(
       name: '/category',
       page: () => CategoryPage(),
-      binding: BindingsBuilder(
-        () {
-          Get.lazyPut<CategoryController>(() => CategoryController());
-        },
-      ),
+      // binding: BindingsBuilder(
+      //   () {
+      //     Get.lazyPut<CategoryController>(() => CategoryController());
+      //   },
+      // ),
     ),
   ];
 }
@@ -72,12 +74,12 @@ class HomePage extends StatelessWidget {
           //   ),
           // );
 
-          Get.showDialog(
-            ProductDetailPage(),
-            settings: RouteSettings(
-              arguments: '1',
-            ),
-          );
+          // Get.showDialog(
+          //   ProductDetailPage(),
+          //   settings: RouteSettings(
+          //     arguments: '1',
+          //   ),
+          // );
         },
         child: Icon(Icons.category),
       ),
@@ -85,9 +87,9 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class ProductDetailBinding extends Bindings {
+class ProductDetailBinding extends BaseBindingsFactory {
   @override
-  void dependencies() {
+  void dependenciesFactory() {
     // inject the repository
     Get.lazyPutFactory<ProductDetailRepository>(
       () => ProductDetailRepositoryImpl(),
@@ -142,7 +144,7 @@ class ProductDetailController extends BaseGetxController {
   }
 }
 
-class ProductDetailPage extends BaseGetBottomSheet<ProductDetailController> {
+class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
   ProductDetailPage({super.key});
 
   @override
@@ -189,27 +191,27 @@ class ProductDetailPage extends BaseGetBottomSheet<ProductDetailController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.showBottomSheet(
-            ProductDetailPage(),
-            settings: RouteSettings(
-              arguments: '1',
-            ),
-          );
+          // Get.showBottomSheet(
+          //   ProductDetailPage(),
+          //   settings: RouteSettings(
+          //     arguments: '1',
+          //   ),
+          // );
         },
         child: Icon(Icons.category),
       ),
     );
   }
 
-  @override
-  Bindings get binding => ProductDetailBinding();
+  // @override
+  // BaseBindingsFactory get binding => ProductDetailBinding();
 }
 
 class CategoryController extends BaseGetxController {
   final count = 0.obs;
 }
 
-class CategoryPage extends BaseGetBottomSheet<CategoryController> {
+class CategoryPage extends BaseGetBtsDialog<CategoryController> {
   CategoryPage({super.key});
 
   @override
@@ -236,7 +238,7 @@ class CategoryPage extends BaseGetBottomSheet<CategoryController> {
   }
 
   @override
-  Bindings? get binding => BindingsBuilder(
+  BaseBindingsFactory get bindingFactory => BindingsFactoryBuilder(
         () {
           Get.lazyPutFactory<CategoryController>(() => CategoryController());
         },

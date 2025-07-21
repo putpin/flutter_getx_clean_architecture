@@ -1,11 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bottom_sheet.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bts_dialog.dart';
 import 'package:get/get.dart';
+
+const _tagPrefix = 'SDS_';
 
 extension GetInterfaceExt on GetInterface {
   static int _tag = 0;
 
-  String get tag => 'SDS_$_tag';
+  String get tag => '$_tagPrefix$_tag';
 
   /// Same as `Get.lazyPut` but create new instance with a tag.
   void lazyPutFactory<S>(
@@ -60,7 +62,6 @@ extension GetInterfaceExt on GetInterface {
     int? id,
     Map<String, String>? parameters,
   }) {
-    increaseTag();
     return toNamed(
       page,
       arguments: arguments,
@@ -71,7 +72,7 @@ extension GetInterfaceExt on GetInterface {
   }
 
   Future<T?> showBottomSheet<T>(
-    BaseGetBottomSheet bottomSheet, {
+    BaseGetBtsDialog bottomSheet, {
     RouteSettings? settings,
   }) {
     return Get.bottomSheet(
@@ -81,7 +82,7 @@ extension GetInterfaceExt on GetInterface {
   }
 
   Future<T?> showDialog<T>(
-    BaseGetBottomSheet dialog, {
+    BaseGetBtsDialog dialog, {
     RouteSettings? settings,
   }) {
     return Get.dialog(
