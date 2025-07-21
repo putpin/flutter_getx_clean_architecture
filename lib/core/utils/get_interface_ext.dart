@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bottom_sheet.dart';
 import 'package:get/get.dart';
 
 extension GetInterfaceExt on GetInterface {
@@ -48,19 +50,43 @@ extension GetInterfaceExt on GetInterface {
     return arguments is T? ? arguments : null;
   }
 
+  static void increaseTag() {
+    ++_tag;
+  }
+
   Future<T?>? toNamedFactory<T>(
     String page, {
     dynamic arguments,
     int? id,
     Map<String, String>? parameters,
   }) {
-    ++_tag;
+    increaseTag();
     return toNamed(
       page,
       arguments: arguments,
       id: id,
       preventDuplicates: false,
       parameters: parameters,
+    );
+  }
+
+  Future<T?> showBottomSheet<T>(
+    BaseGetBottomSheet bottomSheet, {
+    RouteSettings? settings,
+  }) {
+    return Get.bottomSheet(
+      bottomSheet,
+      settings: settings,
+    );
+  }
+
+  Future<T?> showDialog<T>(
+    BaseGetBottomSheet dialog, {
+    RouteSettings? settings,
+  }) {
+    return Get.dialog(
+      dialog,
+      routeSettings: settings,
     );
   }
 }

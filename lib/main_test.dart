@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/repository/base_repository.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/usecase/base_use_case.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page_factory.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bottom_sheet.dart';
 import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
@@ -64,8 +63,21 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final r = Get.findFactory<GetProductDetailUseCase>();
-          log('GetProductDetailUseCase instance: $r');
+          // final r = Get.findFactory<GetProductDetailUseCase>();
+          // log('GetProductDetailUseCase instance: $r');
+          // Get.showBottomSheet(
+          //   ProductDetailPage(),
+          //   settings: RouteSettings(
+          //     arguments: '1',
+          //   ),
+          // );
+
+          Get.showDialog(
+            ProductDetailPage(),
+            settings: RouteSettings(
+              arguments: '1',
+            ),
+          );
         },
         child: Icon(Icons.category),
       ),
@@ -130,15 +142,8 @@ class ProductDetailController extends BaseGetxController {
   }
 }
 
-class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
+class ProductDetailPage extends BaseGetBottomSheet<ProductDetailController> {
   ProductDetailPage({super.key});
-
-  // @override
-  // String? get tag => _tag;
-
-  // Phải lấy tag và lưu vào 1 biến thay vì Get.parameters['tag'] trong getter tag bên trên
-  // vì Get.parameters['tag'] sẽ bị thay đổi mỗi khi chuyển trang
-  // final _tag = Get.parameters['tag'];
 
   @override
   Widget buildPage(BuildContext context) {
@@ -182,15 +187,29 @@ class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.showBottomSheet(
+            ProductDetailPage(),
+            settings: RouteSettings(
+              arguments: '1',
+            ),
+          );
+        },
+        child: Icon(Icons.category),
+      ),
     );
   }
+
+  @override
+  Bindings get binding => ProductDetailBinding();
 }
 
 class CategoryController extends BaseGetxController {
   final count = 0.obs;
 }
 
-class CategoryPage extends BaseGetPage<CategoryController> {
+class CategoryPage extends BaseGetBottomSheet<CategoryController> {
   CategoryPage({super.key});
 
   @override
@@ -207,9 +226,19 @@ class CategoryPage extends BaseGetPage<CategoryController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           controller.count.value++;
+          Get.showBottomSheet(
+            CategoryPage(),
+          );
         },
         child: Icon(Icons.add),
       ),
     );
   }
+
+  @override
+  Bindings? get binding => BindingsBuilder(
+        () {
+          Get.lazyPutFactory<CategoryController>(() => CategoryController());
+        },
+      );
 }

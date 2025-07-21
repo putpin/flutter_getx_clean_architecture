@@ -3,12 +3,18 @@ import 'package:flutter_getx_clean_architecture/core/presentation/widgets/get_pa
 import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
-abstract class BaseGetPageFactory<T extends BaseGetxController>
+abstract class BaseGetBottomSheet<T extends BaseGetxController>
     extends GetView<T> with GetPageMixin {
-  BaseGetPageFactory({super.key});
+  BaseGetBottomSheet({super.key});
 
   @override
   T get controller => _controller;
 
-  late final _controller = Get.findFactory<T>();
+  late final _controller = () {
+    GetInterfaceExt.increaseTag();
+    binding?.dependencies();
+    return Get.findFactory<T>();
+  }();
+
+  Bindings? get binding;
 }

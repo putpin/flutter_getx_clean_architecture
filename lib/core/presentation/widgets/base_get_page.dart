@@ -9,5 +9,5 @@ abstract class BaseGetPage<T extends BaseGetxController> extends GetView<T>
   @override
   T get controller => _controller;
 
-  final _controller = Get.find<T>();
+  late final _controller = Get.find<T>();
 }
