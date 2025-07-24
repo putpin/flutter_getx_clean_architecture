@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bts_dialog.dart';
 import 'package:get/get.dart';
 
 const _tagPrefix = 'SDS_';
@@ -55,40 +53,5 @@ extension GetInterfaceExt on GetInterface {
 
   static void increaseTag() {
     ++_tag;
-  }
-
-  Future<T?>? toNamedFactory<T>(
-    String page, {
-    dynamic arguments,
-    int? id,
-    Map<String, String>? parameters,
-  }) {
-    return toNamed(
-      page,
-      arguments: arguments,
-      id: id,
-      preventDuplicates: false,
-      parameters: parameters,
-    );
-  }
-
-  Future<T?> showBottomSheet<T>(
-    BaseGetBtsDialog bottomSheet, {
-    RouteSettings? settings,
-  }) {
-    return Get.bottomSheet(
-      bottomSheet,
-      settings: settings,
-    );
-  }
-
-  Future<T?> showDialog<T>(
-    BaseGetBtsDialog dialog, {
-    RouteSettings? settings,
-  }) {
-    return Get.dialog(
-      dialog,
-      routeSettings: settings,
-    );
   }
 }

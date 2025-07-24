@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/bindings/app_binding.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page.dart';
 import 'package:get/get.dart';
 
-void main() {
+void main() async {
+  await AppBinding().dependencies();
+  // Get.lazyPut<CounterController>(
+  //   CounterController.new,
+  //   fenix: false,
+  // );
+  // Get.put<CounterController>(
+  //   CounterController(),
+  //   permanent: true,
+  // );
   runApp(MyApp());
 }
 
@@ -20,18 +30,15 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/counter/:id',
           page: () => CounterPage(),
-          binding: BindingsBuilder(
-            () {
-              final isRegistered = Get.isRegistered<CounterController>();
-              debugPrint(
-                '[CounterController] isRegistered: $isRegistered',
-              );
+          // binding: BindingsBuilder(
+          //   () {
+          //     final isRegistered = Get.isRegistered<CounterController>();
+          //     debugPrint(
+          //       '[CounterController] isRegistered: $isRegistered',
+          //     );
 
-              Get.lazyPut<CounterController>(
-                () => CounterController(),
-              );
-            },
-          ),
+          //   },
+          // ),
         ),
       ],
     );

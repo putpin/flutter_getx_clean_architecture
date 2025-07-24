@@ -3,42 +3,20 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/repository/base_repository.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/usecase/base_use_case.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/app.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/bindings/app_binding.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/bindings/base_bindings_factory.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/navigation/app_navigator.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/navigation/app_routes.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bts_dialog.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page_factory.dart';
 import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
-void main() {
-  runApp(GetMaterialApp(
-    title: 'Product Detail Demo',
-    initialRoute: '/',
-    getPages: AppRoutes.routes,
-  ));
-}
-
-class AppRoutes {
-  static final routes = [
-    GetPage(
-      name: '/',
-      page: () => HomePage(),
-    ),
-    GetPage(
-      name: '/product_detail',
-      page: () => ProductDetailPage(),
-      binding: ProductDetailBinding(),
-    ),
-    GetPage(
-      name: '/category',
-      page: () => CategoryPage(),
-      // binding: BindingsBuilder(
-      //   () {
-      //     Get.lazyPut<CategoryController>(() => CategoryController());
-      //   },
-      // ),
-    ),
-  ];
+void main() async {
+  await AppBinding().dependencies();
+  runApp(App());
 }
 
 class HomePage extends StatelessWidget {
@@ -55,9 +33,10 @@ class HomePage extends StatelessWidget {
         itemBuilder: (_, index) => ListTile(
           title: Text(products[index]),
           onTap: () {
+            final appNavigator = Get.find<AppNavigator>();
             final productId = (index + 1).toString();
-            Get.toNamedFactory(
-              '/product_detail',
+            appNavigator.toNamedFactory(
+              AppRoutes.productDetail.path,
               arguments: productId,
             );
           },
@@ -148,6 +127,13 @@ class ProductDetailController extends BaseGetxController {
     productName = 'Product $productId';
     debugPrint('Controller created for $productName');
   }
+
+  void toProductDetailPage(String id) {
+    appNavigator.toNamedFactory(
+      AppRoutes.productDetail.path,
+      arguments: id,
+    );
+  }
 }
 
 class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
@@ -167,17 +153,20 @@ class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
               onPressed: () {
                 // Mở tiếp một ProductDetailPage mới
                 final newId = (int.parse(controller.productId) + 1).toString();
-                Get.toNamedFactory(
-                  '/product_detail',
-                  arguments: newId,
-                );
+                // appNavigator.toNamedFactory(
+                //   '/product_detail',
+                //   arguments: newId,
+                // );
+                controller.toProductDetailPage(newId);
               },
               child: Text('Go to next product'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Get.toNamed('/category');
+                Get.toNamed(
+                  AppRoutes.category.path,
+                );
               },
               child: Text('Go to Category Page'),
             ),
@@ -234,7 +223,7 @@ class CategoryPage extends BaseGetBtsDialog<CategoryController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           controller.count.value++;
-          Get.showBottomSheet(
+          appNavigator.showBottomSheet(
             CategoryPage(),
           );
         },

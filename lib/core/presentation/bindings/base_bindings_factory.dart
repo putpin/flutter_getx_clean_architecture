@@ -12,13 +12,13 @@ abstract class BaseBindingsFactory extends Bindings {
     bindingsFactoryController();
   }
 
-  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này
+  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này, ngoại trừ find các singleton instance
   void bindingsFactoryRepository();
 
-  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này
+  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này, ngoại trừ find các singleton instance
   void bindingsFactoryUseCase();
 
-  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này
+  /// Chỉ sử dụng `putFactory`, `lazyPutFactory`, `findFactory` trong hàm này, ngoại trừ find các singleton instance
   void bindingsFactoryController();
 }
 

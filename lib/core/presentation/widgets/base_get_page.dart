@@ -5,9 +5,4 @@ import 'package:get/get.dart';
 abstract class BaseGetPage<T extends BaseGetxController> extends GetView<T>
     with GetPageMixin {
   BaseGetPage({super.key});
-
-  @override
-  T get controller => _controller;
-
-  late final _controller = Get.find<T>();
 }
