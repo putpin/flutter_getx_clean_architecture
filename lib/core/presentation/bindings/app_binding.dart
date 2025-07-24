@@ -25,10 +25,13 @@ class AppBinding extends BaseBindings {
       },
       permanent: true,
     );
-    await Get.putAsync(AppHive().init, permanent: true);
+    await [
+      Get.putAsync(AppHive().init, permanent: true),
+      Get.putAsync(AppInfo().init, permanent: true)
+    ].wait;
     Get.put(AppNavigator(), permanent: true);
     Get.put(ExceptionHandler(appNavigator: Get.find()), permanent: true);
-    Get.put(AppInfo(), permanent: true);
+
     Get.put(HeaderInterceptor(Get.find()), permanent: true);
     Get.put(AccessTokenInterceptor(Get.find()), permanent: true);
     Get.put(

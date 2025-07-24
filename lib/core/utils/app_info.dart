@@ -10,11 +10,12 @@ class AppInfo {
   String get versionCode => _packageInfo?.buildNumber ?? '';
   String get versionName => _packageInfo?.version ?? '';
 
-  Future<void> init() async {
+  Future<AppInfo> init() async {
     _packageInfo = await PackageInfo.fromPlatform();
     log('APPLICATION_ID: ${_packageInfo!.packageName}');
     log('APP_NAME: ${_packageInfo!.appName}');
     log('VERSION_NAME: ${_packageInfo!.version}');
     log('VERSION_CODE: ${_packageInfo!.buildNumber}');
+    return this;
   }
 }
