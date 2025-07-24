@@ -1,4 +1,4 @@
-import 'package:flutter_getx_clean_architecture/core/presentation/navigation/app_routes.dart';
+import 'package:flutter_getx_clean_architecture/routes/app_routes.dart';
 import 'package:flutter_getx_clean_architecture/main_dev.dart';
 import 'package:get/get.dart';
 
