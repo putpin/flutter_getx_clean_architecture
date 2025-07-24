@@ -16,7 +16,7 @@ class AppBinding extends BaseBindings {
   }
 
   Future<void> bindingsCore() async {
-    await Get.putAsync(() => AppHive().init(), permanent: true);
+    await Get.putAsync(AppHive().init, permanent: true);
     Get.put(AppNavigator(), permanent: true);
     Get.put(ExceptionHandler(appNavigator: Get.find()), permanent: true);
     Get.put(AppInfo(), permanent: true);
