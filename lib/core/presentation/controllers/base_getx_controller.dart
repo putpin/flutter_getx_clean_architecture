@@ -4,7 +4,7 @@ import 'package:flutter_getx_clean_architecture/core/presentation/navigation/nav
 import 'package:flutter_getx_clean_architecture/core/utils/logger.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception_wrapper.dart';
-import 'package:flutter_getx_clean_architecture/shared/exceptions/handler/exception_handler.dart';
+import 'package:flutter_getx_clean_architecture/core/exception_handler/exception_handler.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/remote/remote_exception.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/uncaught/app_uncaught_exception.dart';
 import 'package:get/get.dart';

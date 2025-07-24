@@ -1,7 +1,7 @@
 import 'package:flutter_getx_clean_architecture/core/data/data_source/local/app_hive.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/navigation/navigation_src.dart';
-import 'package:flutter_getx_clean_architecture/shared/exceptions/handler/exception_handler.dart';
+import 'package:flutter_getx_clean_architecture/core/exception_handler/exception_handler.dart';
 import 'package:get/get.dart';
 
 import 'base_bindings.dart';
