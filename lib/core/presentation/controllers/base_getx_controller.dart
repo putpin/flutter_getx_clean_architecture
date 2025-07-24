@@ -7,6 +7,15 @@ import 'package:flutter_getx_clean_architecture/shared/exceptions/remote/remote_
 import 'package:flutter_getx_clean_architecture/shared/exceptions/uncaught/app_uncaught_exception.dart';
 import 'package:get/get.dart';
 
+/// typedef action for [buildState] method
+typedef ActionCallback = FutureOr<void> Function();
+
+/// typedef onError for [buildState] method
+typedef OnErrorCallback = FutureOr<AppException?> Function(AppException error);
+
+/// typedef for onFinally for [buildState] method
+typedef OnFinallyCallback = FutureOr<void> Function();
+
 abstract class BaseGetxController extends GetxController {
   final isLoading = false.obs;
   final isLoadingOverlay = false.obs;
@@ -14,13 +23,13 @@ abstract class BaseGetxController extends GetxController {
   /// [action] Nếu bên trong hàm action có gọi hàm bất đồng bộ thì
   /// `BẮT BUỘC` phải `await` để `buildState` có thể bắt được lỗi nếu xảy ra
   Future<void> buildState({
-    required FutureOr<void> Function() action,
+    required ActionCallback action,
+    OnErrorCallback? onError,
+    OnFinallyCallback? onFinally,
     bool showLoading = false,
     bool showLoadingOverlay = false,
     bool handleError = true,
-    FutureOr<AppException?> Function(AppException error)? onError,
     String? overrideErrorMessage,
-    FutureOr<void> Function()? onFinally,
   }) async {
     bool hideLoadingOnFinally = true;
     try {
@@ -45,8 +54,8 @@ abstract class BaseGetxController extends GetxController {
         }
       }
 
-      // onError nếu được truyền vào sẽ luôn được gọi để bloc xử lý thêm nếu cần
-      // Nếu onError trả về true thì lỗi đã được xử lý và không cần xử lý tiếp nữa
+      // onError nếu được truyền vào sẽ luôn được gọi để controller xử lý thêm nếu cần
+      // Nếu onError trả về null thì lỗi đã được xử lý và không cần xử lý tiếp nữa, còn nếu trả về một exception khác để core sẽ xử lý tiếp
       final unHandledException = await onError?.call(appException);
       if (unHandledException == null) {
         return;
@@ -56,7 +65,7 @@ abstract class BaseGetxController extends GetxController {
         // Tự động xử lý exception đã biết
         _handleException(
           AppExceptionWrapper(
-            appException: appException,
+            appException: onError != null ? unHandledException : appException,
             stackTrace: stackTrace,
             overrideMessage: overrideErrorMessage,
           ),
