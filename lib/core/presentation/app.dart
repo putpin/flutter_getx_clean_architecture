@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/navigation/navigation_src.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page.dart';
+import 'package:flutter_getx_clean_architecture/generated/locales.g.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 class App extends BaseGetPage<AppController> {
@@ -14,8 +16,20 @@ class App extends BaseGetPage<AppController> {
   Widget buildPage(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter GetX Clean Architecture',
+      locale: const Locale('vi', 'VN'),
+      translationsKeys: AppTranslation.translations,
+      debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.home.path,
       getPages: AppPages.pages,
+      localizationsDelegates: const [
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate
+      ],
+      supportedLocales: const [
+        Locale('vi', ''),
+      ],
     );
   }
 }

@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Home')),
+      appBar: AppBar(title: const Text('Home')),
       body: ListView.builder(
         itemCount: products.length,
         itemBuilder: (_, index) => ListTile(
@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
           //   ),
           // );
         },
-        child: Icon(Icons.category),
+        child: const Icon(Icons.category),
       ),
     );
   }
@@ -148,7 +148,7 @@ class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Detail for ${controller.productName}'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Mở tiếp một ProductDetailPage mới
@@ -159,27 +159,27 @@ class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
                 // );
                 controller.toProductDetailPage(newId);
               },
-              child: Text('Go to next product'),
+              child: const Text('Go to next product'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Get.toNamed(
                   AppRoutes.category.path,
                 );
               },
-              child: Text('Go to Category Page'),
+              child: const Text('Go to Category Page'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 controller.showPageLoadingOverlay();
 
-                Future.delayed(Duration(seconds: 2), () {
+                Future.delayed(const Duration(seconds: 2), () {
                   controller.hidePageLoadingOverlay();
                 });
               },
-              child: Text('ShowLoadingOverlay'),
+              child: const Text('ShowLoadingOverlay'),
             ),
           ],
         ),
@@ -193,7 +193,7 @@ class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
           //   ),
           // );
         },
-        child: Icon(Icons.category),
+        child: const Icon(Icons.category),
       ),
     );
   }
@@ -212,7 +212,7 @@ class CategoryPage extends BaseGetBtsDialog<CategoryController> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Category Page')),
+      appBar: AppBar(title: const Text('Category Page')),
       body: Center(
         child: Obx(
           () {
@@ -227,7 +227,7 @@ class CategoryPage extends BaseGetBtsDialog<CategoryController> {
             CategoryPage(),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

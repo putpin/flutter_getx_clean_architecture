@@ -73,7 +73,7 @@ mixin GetPageMixin<T extends BaseGetxController> on GetView<T> {
                     );
                   }
 
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 },
               ),
             ],

@@ -14,7 +14,7 @@ void main() async {
   //   CounterController(),
   //   permanent: true,
   // );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Fenix Demo',
       initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => HomePage()),
+        GetPage(name: '/', page: () => const HomePage()),
         GetPage(
           name: '/counter/:id',
           page: () => CounterPage(),
@@ -52,10 +52,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('[HomePage] build');
     return Scaffold(
-      appBar: AppBar(title: Text('Home Page')),
+      appBar: AppBar(title: const Text('Home Page')),
       body: Center(
         child: ElevatedButton(
-          child: Text('Go to Counter Page'),
+          child: const Text('Go to Counter Page'),
           onPressed: () => Get.toNamed('/counter/0'),
         ),
       ),
@@ -85,7 +85,7 @@ class CounterPage extends BaseGetPage<CounterController> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Counter Page')),
+      appBar: AppBar(title: const Text('Counter Page')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -93,7 +93,7 @@ class CounterPage extends BaseGetPage<CounterController> {
             Obx(
               () => Text(
                 'Counter: ${controller.count.value}',
-                style: TextStyle(fontSize: 24),
+                style: const TextStyle(fontSize: 24),
               ),
             ),
             const SizedBox(height: 20),
@@ -101,7 +101,7 @@ class CounterPage extends BaseGetPage<CounterController> {
               onPressed: () {
                 Get.toNamed('/counter/${controller.count.value + 1}');
               },
-              child: Text('Goto Counter Page again'),
+              child: const Text('Goto Counter Page again'),
             ),
           ],
         ),

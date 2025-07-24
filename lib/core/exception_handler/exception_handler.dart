@@ -1,8 +1,10 @@
 import 'package:flutter_getx_clean_architecture/core/presentation/navigation/app_navigator.dart';
 import 'package:flutter_getx_clean_architecture/core/utils/logger.dart';
+import 'package:flutter_getx_clean_architecture/generated/locales.g.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception_wrapper.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/remote/remote_exception.dart';
+import 'package:get/get.dart';
 
 class ExceptionHandler {
   final AppNavigator appNavigator;
@@ -20,25 +22,26 @@ class ExceptionHandler {
         switch (exception.kind) {
           case RemoteExceptionKind.noInternet:
           case RemoteExceptionKind.timeout:
-            // navigator.showSnackBar(
-            //   message: l10n.cannotConnectToServer,
-            // );
+            appNavigator.showSnackBar(
+              message: LocaleKeys.app_cannotConnectToServer.tr,
+            );
             break;
           case RemoteExceptionKind.serverDefined:
             if (appExceptionWrapper.overrideMessage != null) {
-              // navigator.showSnackBar(
-              //   message: appExceptionWrapper.overrideMessage!,
-              // );
+              appNavigator.showSnackBar(
+                message: appExceptionWrapper.overrideMessage!,
+              );
               return;
             }
-            // navigator.showSnackBar(
-            //   message: exception.serverError?.errorMessage ?? l10n.somethingWentWrong,
-            // );
+            appNavigator.showSnackBar(
+              message: exception.serverError?.errorMessage ??
+                  LocaleKeys.app_somethingWentWrong.tr,
+            );
             break;
           case RemoteExceptionKind.network:
-            // navigator.showSnackBar(
-            //   message: l10n.cannotConnectToServer,
-            // );
+            appNavigator.showSnackBar(
+              message: LocaleKeys.app_cannotConnectToServer.tr,
+            );
             break;
           default:
             // TODO: Ko xử lý những exception ko cần thiết như cancellation,...
@@ -49,9 +52,9 @@ class ExceptionHandler {
       case AppExceptionType.remoteConfig:
         break;
       case AppExceptionType.uncaught:
-        // navigator.showSnackBar(
-        //   message: l10n.somethingWentWrong,
-        // );
+        appNavigator.showSnackBar(
+          message: LocaleKeys.app_somethingWentWrong.tr,
+        );
         break;
     }
   }

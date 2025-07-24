@@ -83,4 +83,10 @@ class AppNavigator {
       routeSettings: settings,
     );
   }
+
+  void showSnackBar({
+    required String message,
+  }) {
+    Get.snackbar('', message);
+  }
 }

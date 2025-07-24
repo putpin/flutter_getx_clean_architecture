@@ -1,0 +1,7 @@
+{
+    "app": {
+        "name": "vBHXH",
+        "somethingWentWrong": "Đã có lỗi xảy ra, vui lòng thử lại sau.",
+        "cannotConnectToServer": "Không thể kết nối đến máy chủ, vui lòng kiểm tra kết nối internet của bạn."
+    }
+}
