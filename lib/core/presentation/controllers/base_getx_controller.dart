@@ -4,6 +4,7 @@ import 'package:flutter_getx_clean_architecture/core/presentation/navigation/nav
 import 'package:flutter_getx_clean_architecture/core/utils/logger.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception_wrapper.dart';
+import 'package:flutter_getx_clean_architecture/shared/exceptions/handler/exception_handler.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/remote/remote_exception.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/uncaught/app_uncaught_exception.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ typedef OnFinallyCallback = FutureOr<void> Function();
 abstract class BaseGetxController extends GetxController {
   late final AppController appController;
   late final AppNavigator appNavigator;
+  late final _exceptionHandler = Get.find<ExceptionHandler>();
 
   final isLoading = false.obs;
   final isLoadingOverlay = false.obs;
@@ -67,7 +69,7 @@ abstract class BaseGetxController extends GetxController {
 
       if (handleError) {
         // Tự động xử lý exception đã biết
-        _handleException(
+        _exceptionHandler.handleException(
           AppExceptionWrapper(
             appException: onError != null ? unHandledException : appException,
             stackTrace: stackTrace,
@@ -87,51 +89,6 @@ abstract class BaseGetxController extends GetxController {
       }
 
       await onFinally?.call();
-    }
-  }
-
-  void _handleException(
-    AppExceptionWrapper appExceptionWrapper,
-  ) {
-    switch (appExceptionWrapper.appException.appExceptionType) {
-      case AppExceptionType.remote:
-        final exception = appExceptionWrapper.appException as RemoteException;
-        switch (exception.kind) {
-          case RemoteExceptionKind.noInternet:
-          case RemoteExceptionKind.timeout:
-            // navigator.showSnackBar(
-            //   message: l10n.cannotConnectToServer,
-            // );
-            break;
-          case RemoteExceptionKind.serverDefined:
-            if (appExceptionWrapper.overrideMessage != null) {
-              // navigator.showSnackBar(
-              //   message: appExceptionWrapper.overrideMessage!,
-              // );
-              return;
-            }
-            // navigator.showSnackBar(
-            //   message: exception.serverError?.errorMessage ?? l10n.somethingWentWrong,
-            // );
-            break;
-          case RemoteExceptionKind.network:
-            // navigator.showSnackBar(
-            //   message: l10n.cannotConnectToServer,
-            // );
-            break;
-          default:
-            // TODO: Ko xử lý những exception ko cần thiết như cancellation,...
-            logger.e("Unknown error: $exception");
-            break;
-        }
-        break;
-      case AppExceptionType.remoteConfig:
-        break;
-      case AppExceptionType.uncaught:
-        // navigator.showSnackBar(
-        //   message: l10n.somethingWentWrong,
-        // );
-        break;
     }
   }
 
