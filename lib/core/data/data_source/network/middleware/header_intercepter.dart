@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_getx_clean_architecture/core/data/data_source/network/middleware/base_intercepter.dart';
 import 'package:flutter_getx_clean_architecture/core/utils/app_info.dart';
@@ -7,8 +6,11 @@ import 'package:flutter_getx_clean_architecture/core/utils/app_info.dart';
 class HeaderInterceptor extends BaseInterceptor {
   HeaderInterceptor(this._appInfo);
 
-  Map<String, dynamic> _headers = {};
   final AppInfo _appInfo;
+
+  var _headers = <String, dynamic>{
+    'Content-Type': 'application/json',
+  };
 
   set headers(Map<String, dynamic> headers) {
     _headers = headers;
