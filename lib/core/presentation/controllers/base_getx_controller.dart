@@ -63,7 +63,7 @@ abstract class BaseGetxController extends GetxController {
       // onError nếu được truyền vào sẽ luôn được gọi để controller xử lý thêm nếu cần
       // Nếu onError trả về null thì lỗi đã được xử lý và không cần xử lý tiếp nữa, còn nếu trả về một exception khác để core sẽ xử lý tiếp
       final unHandledException = await onError?.call(appException);
-      if (unHandledException == null) {
+      if (onError != null && unHandledException == null) {
         return;
       }
 
@@ -71,7 +71,7 @@ abstract class BaseGetxController extends GetxController {
         // Tự động xử lý exception đã biết
         _exceptionHandler.handleException(
           AppExceptionWrapper(
-            appException: onError != null ? unHandledException : appException,
+            appException: unHandledException ?? appException,
             stackTrace: stackTrace,
             overrideMessage: overrideErrorMessage,
           ),

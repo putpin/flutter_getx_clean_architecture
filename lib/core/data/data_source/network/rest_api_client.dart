@@ -36,10 +36,11 @@ class RestApiClient {
         cancelToken: cancelToken,
       );
 
+      // Có nhiều API dù có lỗi vẫn trả về 200 OK, nên cần kiểm tra dựa vào code để xử lý lỗi
       final data = response.data;
       if (data is Map<String, dynamic> && data['code'] == '01') {
         final serverError = ServerError.fromJson(data);
-        return RemoteException(
+        throw RemoteException(
           kind: RemoteExceptionKind.serverDefined,
           httpErrorCode: response.statusCode,
           serverError: serverError,

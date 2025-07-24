@@ -16,6 +16,7 @@ import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await AppBinding().bind(env: AppEnv.dev);
   runApp(App());
 }
@@ -193,6 +194,7 @@ class ProductDetailPage extends BaseGetPageFactory<ProductDetailController> {
           //     arguments: '1',
           //   ),
           // );
+          appNavigator.toNamed(AppRoutes.login.path);
         },
         child: const Icon(Icons.category),
       ),

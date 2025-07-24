@@ -13,4 +13,9 @@ class ServerError {
       errorMessage: json['errorMessage'] as String?,
     );
   }
+
+  @override
+  String toString() {
+    return 'ServerError{code: $code, errorMessage: $errorMessage}';
+  }
 }

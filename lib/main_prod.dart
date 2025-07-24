@@ -16,6 +16,7 @@ import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await AppBinding().bind(env: AppEnv.prod);
   runApp(App());
 }

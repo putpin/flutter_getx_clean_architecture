@@ -1,5 +1,6 @@
 enum AppRoutes {
   home,
+  login,
   productDetail,
   category;
 
