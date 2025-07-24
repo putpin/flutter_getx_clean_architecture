@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_clean_architecture/core/config/env_config.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/bindings/app_binding.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page.dart';
 import 'package:get/get.dart';
 
 void main() async {
-  await AppBinding().dependencies();
+  await AppBinding().bind(env: AppEnv.dev);
   // Get.lazyPut<CounterController>(
   //   CounterController.new,
   //   fenix: false,

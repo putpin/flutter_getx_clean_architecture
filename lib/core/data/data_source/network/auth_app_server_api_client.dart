@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_getx_clean_architecture/core/config/env_config.dart';
 import 'package:flutter_getx_clean_architecture/core/data/data_source/network/dio_builder.dart';
 import 'package:flutter_getx_clean_architecture/core/data/data_source/network/middleware/access_token_intercepter.dart';
 import 'package:flutter_getx_clean_architecture/core/data/data_source/network/middleware/header_intercepter.dart';
@@ -6,12 +7,12 @@ import 'package:flutter_getx_clean_architecture/core/data/data_source/network/re
 
 class AuthAppServerApiClient extends RestApiClient {
   AuthAppServerApiClient(
+    EnvConfig envConfig,
     HeaderInterceptor headerInterceptor,
     AccessTokenInterceptor accessTokenInterceptor,
   ) : super(
           dio: DioBuilder.createDio(
-            options:
-                BaseOptions(baseUrl: 'https://vbhxh1.easyhrm.vn/api-mobile'),
+            options: BaseOptions(baseUrl: envConfig.baseUrl),
             interceptors: [
               headerInterceptor,
               accessTokenInterceptor,

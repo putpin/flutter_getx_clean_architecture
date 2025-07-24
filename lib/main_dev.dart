@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_clean_architecture/core/config/env_config.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/repository/base_repository.dart';
 import 'package:flutter_getx_clean_architecture/core/domain/usecase/base_use_case.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/app.dart';
@@ -15,7 +16,7 @@ import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 void main() async {
-  await AppBinding().dependencies();
+  await AppBinding().bind(env: AppEnv.dev);
   runApp(App());
 }
 

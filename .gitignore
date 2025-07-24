@@ -46,3 +46,12 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Generated files
+*.g.dart 
+*.freezed.dart
+
+# Environment
+.env.dev
+.env.prod
+/lib/assets.preview.dart

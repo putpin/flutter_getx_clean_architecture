@@ -1,3 +1,4 @@
+import 'package:flutter_getx_clean_architecture/core/config/env_config.dart';
 import 'package:flutter_getx_clean_architecture/core/data/data_source/local/app_hive.dart';
 import 'package:flutter_getx_clean_architecture/core/data/data_source/network/network_src.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
@@ -9,21 +10,32 @@ import 'package:get/get.dart';
 import 'base_bindings.dart';
 
 class AppBinding extends BaseBindings {
-  @override
-  Future<void> dependencies() async {
-    await bindingsCore();
-    super.dependencies();
+  Future<void> bind({
+    required AppEnv env,
+  }) async {
+    await bindingsCore(env);
+    dependencies();
   }
 
-  Future<void> bindingsCore() async {
+  Future<void> bindingsCore(AppEnv env) async {
+    Get.put<EnvConfig>(
+      switch (env) {
+        AppEnv.dev => EnvConfigDev(),
+        AppEnv.prod => EnvConfigProd(),
+      },
+      permanent: true,
+    );
     await Get.putAsync(AppHive().init, permanent: true);
     Get.put(AppNavigator(), permanent: true);
     Get.put(ExceptionHandler(appNavigator: Get.find()), permanent: true);
     Get.put(AppInfo(), permanent: true);
     Get.put(HeaderInterceptor(Get.find()), permanent: true);
     Get.put(AccessTokenInterceptor(Get.find()), permanent: true);
-    Get.put(AuthAppServerApiClient(Get.find(), Get.find()), permanent: true);
-    Get.put(NonAuthAppServerApiClient(Get.find()), permanent: true);
+    Get.put(
+      AuthAppServerApiClient(Get.find(), Get.find(), Get.find()),
+      permanent: true,
+    );
+    Get.put(NonAuthAppServerApiClient(Get.find(), Get.find()), permanent: true);
   }
 
   @override
