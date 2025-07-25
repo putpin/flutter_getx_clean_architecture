@@ -49,6 +49,22 @@ class AppNavigator {
     );
   }
 
+  Future<T?>? offAllNamed<T>(
+    String newRouteName, {
+    RoutePredicate? predicate,
+    dynamic arguments,
+    int? id,
+    Map<String, String>? parameters,
+  }) {
+    return Get.offAllNamed(
+      newRouteName,
+      predicate: predicate,
+      arguments: arguments,
+      id: id,
+      parameters: parameters,
+    );
+  }
+
   Future<T?>? toNamedFactory<T>(
     String page, {
     dynamic arguments,

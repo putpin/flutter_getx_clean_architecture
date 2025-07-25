@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter_getx_clean_architecture/core/presentation/navigation/app_navigator.dart';
 import 'package:flutter_getx_clean_architecture/core/utils/logger.dart';
 import 'package:flutter_getx_clean_architecture/generated/locales.g.dart';
+import 'package:flutter_getx_clean_architecture/routes/app_routes.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception_wrapper.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/remote/remote_exception.dart';
@@ -27,6 +30,14 @@ class ExceptionHandler {
             );
             break;
           case RemoteExceptionKind.serverDefined:
+            if (exception.httpErrorCode == HttpStatus.unauthorized) {
+              appNavigator.showSnackBar(
+                message: 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại',
+              );
+              appNavigator.offAllNamed(AppRoutes.login.path);
+              return;
+            }
+
             if (appExceptionWrapper.overrideMessage != null) {
               appNavigator.showSnackBar(
                 message: appExceptionWrapper.overrideMessage!,
