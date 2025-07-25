@@ -7,5 +7,6 @@ abstract class AppException implements Exception {
 enum AppExceptionType {
   remote,
   remoteConfig,
+  custom,
   uncaught,
 }

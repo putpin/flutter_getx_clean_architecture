@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_getx_clean_architecture/core/domain/usecase/base_use_case.dart';
 import 'package:flutter_getx_clean_architecture/features/login/domain/entity/login_request.dart';
+import 'package:flutter_getx_clean_architecture/features/login/domain/exception/login_exception.dart';
 import 'package:flutter_getx_clean_architecture/features/login/domain/repository/login_repository.dart';
 
 class LoginUseCase extends UseCase<LoginRequest, String> {
@@ -14,6 +15,14 @@ class LoginUseCase extends UseCase<LoginRequest, String> {
       request: input,
     );
 
-    return response.result ?? '';
+    final accessToken = response.result;
+
+    if (accessToken == null || accessToken.isEmpty) {
+      throw LoginException(
+        kind: LoginExceptionKind.invalidUsernameOrPassword,
+      );
+    }
+
+    return accessToken;
   }
 }

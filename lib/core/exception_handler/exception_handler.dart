@@ -51,6 +51,7 @@ class ExceptionHandler {
         break;
       case AppExceptionType.remoteConfig:
         break;
+      case AppExceptionType.custom:
       case AppExceptionType.uncaught:
         appNavigator.showSnackBar(
           message: LocaleKeys.app_somethingWentWrong.tr,
