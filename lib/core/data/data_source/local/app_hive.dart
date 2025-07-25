@@ -1,3 +1,5 @@
+import 'package:flutter_getx_clean_architecture/core/utils/logger.dart';
+
 class AppHive {
   Future<AppHive> init() async {
     await Future.delayed(const Duration(seconds: 1));
@@ -6,7 +8,7 @@ class AppHive {
 
   Future<void> saveAccessToken(String accessToken) async {
     // Simulate saving access token to Hive
-    print('Access token saved: $accessToken');
+    logger.d('Access token saved: $accessToken');
   }
 
   String? get accessToken {
