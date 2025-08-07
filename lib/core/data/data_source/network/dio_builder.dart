@@ -1,4 +1,4 @@
-import 'package:flutter_getx_clean_architecture/core/constant/const.dart';
+import 'package:flutter_getx_clean_architecture/shared/constants/const.dart';
 import 'package:dio/dio.dart';
 
 class DioBuilder {

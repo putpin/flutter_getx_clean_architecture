@@ -8,11 +8,11 @@ import 'package:flutter_getx_clean_architecture/core/presentation/app.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/bindings/app_binding.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/bindings/base_bindings_factory.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
-import 'package:flutter_getx_clean_architecture/core/presentation/navigation/app_navigator.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/navigation/navigation_src.dart';
 import 'package:flutter_getx_clean_architecture/routes/app_routes.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bts_dialog.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page_factory.dart';
-import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
+import 'package:flutter_getx_clean_architecture/shared/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -81,16 +81,14 @@ class ProductDetailBinding extends BaseBindingsFactory {
   void bindingsFactoryUseCase() {
     // inject the use case
     Get.lazyPutFactory<GetProductDetailUseCase>(
-      () => GetProductDetailUseCase(Get.findFactory()),
+      () => GetProductDetailUseCase(slF()),
     );
   }
 
   @override
   void bindingsFactoryController() {
     Get.lazyPutFactory(
-      () => ProductDetailController(
-        Get.findFactory(),
-      ),
+      () => ProductDetailController(slF()),
     );
   }
 }

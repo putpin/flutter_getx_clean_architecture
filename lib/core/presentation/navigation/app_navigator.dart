@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getx_clean_architecture/core/presentation/navigation/snack_bar_type.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_bts_dialog.dart';
-import 'package:get/get.dart';
 
-class AppNavigator {
+abstract class AppNavigator {
   Future<T?>? toNamed<T>(
     String page, {
     dynamic arguments,
     int? id,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-  }) {
-    return Get.toNamed(
-      page,
-      arguments: arguments,
-      id: id,
-      preventDuplicates: preventDuplicates,
-      parameters: parameters,
-    );
-  }
+  });
 
   Future<T?>? offNamed<T>(
     String page, {
@@ -25,29 +17,14 @@ class AppNavigator {
     int? id,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-  }) {
-    return Get.offNamed(
-      page,
-      arguments: arguments,
-      id: id,
-      preventDuplicates: preventDuplicates,
-      parameters: parameters,
-    );
-  }
+  });
 
   void back<T>({
     T? result,
     bool closeOverlays = false,
     bool canPop = true,
     int? id,
-  }) {
-    Get.back<T>(
-      result: result,
-      closeOverlays: closeOverlays,
-      canPop: canPop,
-      id: id,
-    );
-  }
+  });
 
   Future<T?>? offAllNamed<T>(
     String newRouteName, {
@@ -55,54 +32,43 @@ class AppNavigator {
     dynamic arguments,
     int? id,
     Map<String, String>? parameters,
-  }) {
-    return Get.offAllNamed(
-      newRouteName,
-      predicate: predicate,
-      arguments: arguments,
-      id: id,
-      parameters: parameters,
-    );
-  }
+  });
 
   Future<T?>? toNamedFactory<T>(
     String page, {
     dynamic arguments,
     int? id,
     Map<String, String>? parameters,
-  }) {
-    return Get.toNamed(
-      page,
-      arguments: arguments,
-      id: id,
-      preventDuplicates: false,
-      parameters: parameters,
-    );
-  }
+  });
 
+  /// Show bottom sheet phức tạp cho [BaseGetBtsDialog] có controller
   Future<T?> showBottomSheet<T>(
     BaseGetBtsDialog bottomSheet, {
     RouteSettings? settings,
-  }) {
-    return Get.bottomSheet(
-      bottomSheet,
-      settings: settings,
-    );
-  }
+  });
 
+  /// Show bottom sheet đơn giản
+  Future<T?> bottomSheet<T>(
+    Widget bottomsheet, {
+    bool isScrollControlled = false,
+  });
+
+  /// Show dialog phức tạp cho [BaseGetBtsDialog] có controller
   Future<T?> showDialog<T>(
     BaseGetBtsDialog dialog, {
     RouteSettings? settings,
-  }) {
-    return Get.dialog(
-      dialog,
-      routeSettings: settings,
-    );
-  }
+    bool barrierDismissible = true,
+  });
 
-  void showSnackBar({
+  /// Show dialog đơn giản
+  Future<T?> dialog<T>(
+    Widget widget, {
+    bool barrierDismissible = true,
+  });
+
+  void showSnackBar<T>({
     required String message,
-  }) {
-    Get.snackbar('', message);
-  }
+    Duration duration = const Duration(seconds: 2),
+    SnackBarType type = SnackBarType.failure,
+  });
 }

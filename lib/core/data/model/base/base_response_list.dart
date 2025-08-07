@@ -1,3 +1,5 @@
+import 'package:flutter_getx_clean_architecture/shared/constants/const.dart';
+
 class BaseResponseList<T> {
   final String code;
   final String? errorMessage;
@@ -22,4 +24,6 @@ class BaseResponseList<T> {
           .toList(),
     );
   }
+
+  bool get isSuccess => code == responseCodeSuccess;
 }

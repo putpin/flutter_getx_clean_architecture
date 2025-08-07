@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/navigation/navigation_src.dart';
-import 'package:flutter_getx_clean_architecture/core/utils/utils_src.dart';
+import 'package:flutter_getx_clean_architecture/shared/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 mixin GetPageMixin<T extends BaseGetxController> on GetView<T> {

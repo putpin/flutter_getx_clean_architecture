@@ -1,3 +1,5 @@
+import 'package:flutter_getx_clean_architecture/shared/constants/const.dart';
+
 class BaseResponse<T> {
   final String code;
   final String errorMessage;
@@ -23,5 +25,5 @@ class BaseResponse<T> {
     );
   }
 
-  bool get isSuccess => code == '00';
+  bool get isSuccess => code == responseCodeSuccess;
 }

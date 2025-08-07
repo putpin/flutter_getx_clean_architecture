@@ -1,10 +1,11 @@
 import 'package:flutter_getx_clean_architecture/core/config/env_config.dart';
-import 'package:flutter_getx_clean_architecture/core/data/data_source/local/app_hive.dart';
+import 'package:flutter_getx_clean_architecture/core/data/data_source/local/app_hive_impl.dart';
 import 'package:flutter_getx_clean_architecture/core/data/data_source/network/network_src.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/navigation/navigation_src.dart';
-import 'package:flutter_getx_clean_architecture/core/exception_handler/exception_handler.dart';
-import 'package:flutter_getx_clean_architecture/core/utils/app_info.dart';
+import 'package:flutter_getx_clean_architecture/shared/exceptions/exception_handler.dart';
+import 'package:flutter_getx_clean_architecture/shared/mappers/mappers_src.dart';
+import 'package:flutter_getx_clean_architecture/shared/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 import 'base_bindings.dart';
@@ -14,7 +15,12 @@ class AppBinding extends BaseBindings {
     required AppEnv env,
   }) async {
     await bindingsCore(env);
+    _bindingMappers();
     dependencies();
+  }
+
+  void _bindingMappers() {
+    Get.lazyPut(() => ProvinceDataMapper(), fenix: true);
   }
 
   Future<void> bindingsCore(AppEnv env) async {
@@ -26,19 +32,18 @@ class AppBinding extends BaseBindings {
       permanent: true,
     );
     await [
-      Get.putAsync(AppHive().init, permanent: true),
+      Get.putAsync(AppHiveImpl.instance.init, permanent: true),
       Get.putAsync(AppInfo().init, permanent: true)
     ].wait;
-    Get.put(AppNavigator(), permanent: true);
-    Get.put(ExceptionHandler(appNavigator: Get.find()), permanent: true);
-
-    Get.put(HeaderInterceptor(Get.find()), permanent: true);
-    Get.put(AccessTokenInterceptor(Get.find()), permanent: true);
+    Get.put<AppNavigator>(AppNavigatorImpl(), permanent: true);
+    Get.put(ExceptionHandler(appNavigator: sl()), permanent: true);
+    Get.put(HeaderInterceptor(sl()), permanent: true);
+    Get.put(AccessTokenInterceptor(sl()), permanent: true);
     Get.put(
-      AuthAppServerApiClient(Get.find(), Get.find(), Get.find()),
+      AuthAppServerApiClient(sl(), sl(), sl()),
       permanent: true,
     );
-    Get.put(NonAuthAppServerApiClient(Get.find(), Get.find()), permanent: true);
+    Get.put(NonAuthAppServerApiClient(sl(), sl()), permanent: true);
   }
 
   @override

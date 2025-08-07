@@ -1,18 +1,11 @@
-import 'package:flutter_getx_clean_architecture/core/utils/logger.dart';
+abstract class AppHive {
+  Future<void> put(String key, dynamic value);
 
-class AppHive {
-  Future<AppHive> init() async {
-    await Future.delayed(const Duration(seconds: 1));
-    return this;
-  }
+  T? get<T>(String key);
 
-  Future<void> saveAccessToken(String accessToken) async {
-    // Simulate saving access token to Hive
-    logger.d('Access token saved: $accessToken');
-  }
+  Future<void> delete(String key);
 
-  String? get accessToken {
-    // Simulate fetching access token from Hive
-    return 'sample_access_token';
-  }
+  Future<int> deleteAll();
+
+  Future<void> deleteKeys(List<String> keys);
 }

@@ -1,4 +1,4 @@
-import 'package:flutter_getx_clean_architecture/core/domain/entity/entity.dart';
+import 'package:flutter_getx_clean_architecture/core/domain/entity/base/entity.dart';
 import 'package:flutter_getx_clean_architecture/features/login/data/model/login_request_data.dart';
 
 class LoginRequest extends Entity {

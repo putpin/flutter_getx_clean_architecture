@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/widgets/base_get_page.dart';
@@ -9,6 +10,8 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 class App extends BaseGetPage<AppController> {
   App({super.key});
+
+  final botToastBuilder = BotToastInit();
 
   @override
   bool get isAppWidget => true;
@@ -31,6 +34,10 @@ class App extends BaseGetPage<AppController> {
       supportedLocales: const [
         Locale('vi', ''),
       ],
+      builder: (context, child) {
+        return botToastBuilder(context, child);
+      },
+      navigatorObservers: [BotToastNavigatorObserver()],
     );
   }
 }
