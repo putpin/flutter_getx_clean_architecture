@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/base_getx_controller.dart';
@@ -6,15 +7,15 @@ import 'package:flutter_getx_clean_architecture/shared/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 mixin GetPageMixin<T extends BaseGetxController> on GetView<T> {
-  late final appController = Get.find<AppController>();
-  late final appNavigator = Get.find<AppNavigator>();
+  late final nav = Get.find<AppNavigator>();
+  late final appCtrl = Get.find<AppController>();
 
   @override
   T get controller => _controller;
 
   late final _controller = (isFactory ? Get.findFactory<T>() : Get.find<T>())
-    ..appController = appController
-    ..appNavigator = appNavigator;
+    ..appCtrl = appCtrl
+    ..nav = nav;
 
   bool get isFactory => false;
 
@@ -65,7 +66,9 @@ mixin GetPageMixin<T extends BaseGetxController> on GetView<T> {
                           child: Container(
                             color: Colors.black12,
                             child: const Center(
-                              child: CircularProgressIndicator(),
+                              child: CupertinoActivityIndicator(
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         ),
@@ -81,4 +84,20 @@ mixin GetPageMixin<T extends BaseGetxController> on GetView<T> {
   }
 
   Widget buildPage(BuildContext context);
+
+  Widget baseShowLoading(Widget child) {
+    return Obx(
+      () {
+        if (controller.isLoading.value) {
+          return const Center(
+            child: CupertinoActivityIndicator(
+              color: Colors.red,
+            ),
+          );
+        }
+
+        return child;
+      },
+    );
+  }
 }

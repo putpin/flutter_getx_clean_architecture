@@ -129,7 +129,7 @@ class ProductDetailController extends BaseGetxController {
   }
 
   void toProductDetailPage(String id) {
-    appNavigator.toNamedFactory(
+    nav.toNamedFactory(
       AppRoutes.productDetail.path,
       arguments: id,
     );
@@ -223,9 +223,7 @@ class CategoryPage extends BaseGetBtsDialog<CategoryController> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           controller.count.value++;
-          appNavigator.showBottomSheet(
-            CategoryPage(),
-          );
+          nav.showBottomSheet(CategoryPage());
         },
         child: const Icon(Icons.add),
       ),

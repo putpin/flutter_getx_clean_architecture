@@ -10,10 +10,10 @@ import 'package:flutter_getx_clean_architecture/shared/utils/utils_src.dart';
 import 'package:get/get.dart';
 
 class ExceptionHandler {
-  final AppNavigator appNavigator;
+  final AppNavigator nav;
 
   const ExceptionHandler({
-    required this.appNavigator,
+    required this.nav,
   });
 
   void handleException(
@@ -25,32 +25,32 @@ class ExceptionHandler {
         switch (exception.kind) {
           case RemoteExceptionKind.noInternet:
           case RemoteExceptionKind.timeout:
-            appNavigator.showSnackBar(
+            nav.showSnackBar(
               message: LocaleKeys.app_cannotConnectToServer.tr,
             );
             break;
           case RemoteExceptionKind.serverDefined:
             if (exception.httpErrorCode == HttpStatus.unauthorized) {
-              appNavigator.showSnackBar(
+              nav.showSnackBar(
                 message: 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại',
               );
-              appNavigator.offAllNamed(AppRoutes.login.path);
+              nav.offAllNamed(AppRoutes.login.path);
               return;
             }
 
             if (appExceptionWrapper.overrideMessage != null) {
-              appNavigator.showSnackBar(
+              nav.showSnackBar(
                 message: appExceptionWrapper.overrideMessage!,
               );
               return;
             }
-            appNavigator.showSnackBar(
+            nav.showSnackBar(
               message: exception.serverError?.errorMessage ??
                   LocaleKeys.app_somethingWentWrong.tr,
             );
             break;
           case RemoteExceptionKind.network:
-            appNavigator.showSnackBar(
+            nav.showSnackBar(
               message: LocaleKeys.app_cannotConnectToServer.tr,
             );
             break;
@@ -64,7 +64,7 @@ class ExceptionHandler {
         break;
       case AppExceptionType.custom:
       case AppExceptionType.uncaught:
-        appNavigator.showSnackBar(
+        nav.showSnackBar(
           message: LocaleKeys.app_somethingWentWrong.tr,
         );
         break;

@@ -37,7 +37,7 @@ class AppBinding extends BaseBindings {
       Get.putAsync(AppInfo().init, permanent: true)
     ].wait;
     Get.put<AppNavigator>(AppNavigatorImpl(), permanent: true);
-    Get.put(ExceptionHandler(appNavigator: sl()), permanent: true);
+    Get.put(ExceptionHandler(nav: sl()), permanent: true);
     Get.put(HeaderInterceptor(sl()), permanent: true);
     Get.put(AccessTokenInterceptor(sl()), permanent: true);
     Get.put(

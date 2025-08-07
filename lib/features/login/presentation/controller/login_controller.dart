@@ -27,8 +27,7 @@ class LoginController extends BaseGetxController {
       onError: (error) {
         if (error is LoginException &&
             error.kind == LoginExceptionKind.invalidUsernameOrPassword) {
-          appNavigator.showSnackBar(
-              message: "Tài khoản hoặc mật khẩu không đúng");
+          nav.showSnackBar(message: "Tài khoản hoặc mật khẩu không đúng");
           return null;
         }
 

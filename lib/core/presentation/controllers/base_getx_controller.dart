@@ -20,11 +20,9 @@ typedef OnErrorCallback = FutureOr<AppException?> Function(AppException error);
 typedef OnFinallyCallback = FutureOr<void> Function();
 
 abstract class BaseGetxController extends GetxController {
-  late final AppController appController;
-  late final AppNavigator appNavigator;
-  late final _exceptionHandler = ExceptionHandler(
-    appNavigator: appNavigator,
-  );
+  late final AppNavigator nav;
+  late final AppController appCtrl;
+  late final _exceptionHandler = ExceptionHandler(nav: nav);
 
   final isLoading = false.obs;
   final isLoadingOverlay = false.obs;
@@ -53,7 +51,7 @@ abstract class BaseGetxController extends GetxController {
 
       await action();
     } catch (e, stackTrace) {
-      logger.e(e);
+      logger.e(e, stackTrace: stackTrace);
       final appException = e is AppException ? e : AppUncaughtException(e);
 
       if (appException.appExceptionType == AppExceptionType.remote) {
@@ -77,7 +75,7 @@ abstract class BaseGetxController extends GetxController {
           overrideMessage: overrideErrorMessage,
         );
 
-        // Lưu lại exception để có thể dùng ở nới khác nếu cần
+        // Lưu lại exception để có thể dùng sau nếu cần
         appExceptionWrapper.value = exceptionWrapper;
 
         // Tự động xử lý exception đã biết
