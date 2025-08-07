@@ -1,5 +1,5 @@
 import 'package:flutter_getx_clean_architecture/core/config/env_config.dart';
-import 'package:flutter_getx_clean_architecture/core/data/data_source/local/app_hive_impl.dart';
+import 'package:flutter_getx_clean_architecture/core/data/data_source/local/local_src.dart';
 import 'package:flutter_getx_clean_architecture/core/data/data_source/network/network_src.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/navigation/navigation_src.dart';
@@ -33,7 +33,7 @@ class AppBinding extends BaseBindings {
       permanent: true,
     );
     await [
-      Get.putAsync(AppHiveImpl.instance.init, permanent: true),
+      Get.putAsync<AppHive>(AppHiveImpl.instance.init, permanent: true),
       Get.putAsync(AppInfo().init, permanent: true)
     ].wait;
     Get.put<AppNavigator>(AppNavigatorImpl(), permanent: true);

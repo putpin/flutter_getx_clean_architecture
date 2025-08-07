@@ -81,14 +81,14 @@ class ProductDetailBinding extends BaseBindingsFactory {
   void bindingsFactoryUseCase() {
     // inject the use case
     Get.lazyPutFactory<GetProductDetailUseCase>(
-      () => GetProductDetailUseCase(slF()),
+      () => GetProductDetailUseCase(slf()),
     );
   }
 
   @override
   void bindingsFactoryController() {
     Get.lazyPutFactory(
-      () => ProductDetailController(slF()),
+      () => ProductDetailController(slf()),
     );
   }
 }
