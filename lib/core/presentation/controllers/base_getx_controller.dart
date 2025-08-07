@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/controllers/app_controller.dart';
 import 'package:flutter_getx_clean_architecture/core/presentation/navigation/navigation_src.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception.dart';
@@ -111,5 +112,15 @@ abstract class BaseGetxController extends GetxController {
 
   void hidePageLoadingOverlay() {
     isLoadingOverlay.value = false;
+  }
+
+  /// Gọi 2 hàm onInit và onReady để giả lập việc controller được khởi tạo khi mở 1 màn hình
+  ///
+  /// Chỉ dùng khi viết test case
+  @visibleForTesting
+  @nonVirtual
+  void onOpen() {
+    onInit();
+    onReady();
   }
 }
