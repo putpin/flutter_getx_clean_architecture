@@ -1,5 +1,5 @@
 import 'package:flutter_getx_clean_architecture/core/data/data_source/network/network_src.dart';
-import 'package:flutter_getx_clean_architecture/core/data/model/base/base_src.dart';
+import 'package:flutter_getx_clean_architecture/core/data/model/model_src.dart';
 import 'package:flutter_getx_clean_architecture/features/login/domain/entity/login_request.dart';
 import 'package:flutter_getx_clean_architecture/features/login/domain/repository/login_repository.dart';
 

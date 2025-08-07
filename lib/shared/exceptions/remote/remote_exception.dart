@@ -1,4 +1,4 @@
-import 'package:flutter_getx_clean_architecture/core/data/model/base/server_error.dart';
+import 'package:flutter_getx_clean_architecture/core/data/model/server_error.dart';
 import 'package:flutter_getx_clean_architecture/shared/exceptions/base/app_exception.dart';
 
 class RemoteException extends AppException {
