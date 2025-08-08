@@ -52,6 +52,6 @@ app.*.map.json
 *.freezed.dart
 
 # Environment
-.env.dev
-.env.prod
+# .env.dev
+# .env.prod
 /lib/assets.preview.dart
