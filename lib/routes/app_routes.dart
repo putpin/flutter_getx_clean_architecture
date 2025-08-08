@@ -1,8 +1,7 @@
 enum AppRoutes {
   home,
   login,
-  productDetail,
-  category;
+  productDetail;
 
   String get path {
     return '/$name';
